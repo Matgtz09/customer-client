@@ -5,17 +5,17 @@ const CreatePropertyForm = () => {
   const [formData, setFormData] = useState({        // Rent Roll
     name: "",               // from OM
     address: "",            // OM or Rent Roll
-    purchasePrice: "",      // OM
-    grossIncome: "",        // T-12 or OM
+    purchase_price: "",      // OM
+    gross_income: "",        // T-12 or OM
     insurance: "",          // OM
     repairs: "",            // OM
-    managementFees: "",     // OM
+    management_fees: "",     // OM
     utilities: "",          // OM
-    numberOfUnits: "",      // Rent Roll
-    unitMix: "",            // Rent Roll (summary)
-    yearBuilt: "",          // OM
-    squareFootage: "",      // OM
-    grossExpenses: "",      // T-12
+    number_of_units: "",      // Rent Roll
+    unit_mix: "",            // Rent Roll (summary)
+    year_built: "",          // OM
+    square_footage: "",      // OM
+    gross_expenses: "",      // T-12
   });
 
   const [omFile, setOmFile] = useState<File | null>(null);
@@ -48,13 +48,13 @@ const CreatePropertyForm = () => {
       setFormData((prev) => ({
         ...prev,
         address: parsed.address || prev.address,
-        purchasePrice: parsed.purchase_price?.toString() || prev.purchasePrice,
-        numberOfUnits: parsed.number_of_units?.toString() || prev.numberOfUnits,
-        grossIncome: parsed.income?.toString() || prev.grossIncome,
-        grossExpenses: parsed.gross_expenses?.toString() || prev.grossExpenses,
-        yearBuilt: parsed.year_built?.toString() || prev.yearBuilt,
-        squareFootage: parsed.square_footage?.toString() || prev.squareFootage,
-        managementFees: expenses.management_fees?.toString() || prev.managementFees,
+        purchase_price: parsed.purchase_price?.toString() || prev.purchase_price,
+        number_of_units: parsed.number_of_units?.toString() || prev.number_of_units,
+        gross_income: parsed.income?.toString() || prev.gross_income,
+        gross_expenses: parsed.gross_expenses?.toString() || prev.gross_expenses,
+        year_built: parsed.year_built?.toString() || prev.year_built,
+        square_footage: parsed.square_footage?.toString() || prev.square_footage,
+        management_fees: expenses.management_fees?.toString() || prev.management_fees,
         utilities: expenses.utilities?.toString() || prev.utilities,
         repairs: expenses.repairs?.toString() || prev.repairs,
         insurance: expenses.insurance?.toString() || prev.insurance,
@@ -134,8 +134,8 @@ const CreatePropertyForm = () => {
         className="input w-full"
       />
       <input
-        name="purchasePrice"
-        value={formData.purchasePrice}
+        name="purchase_price"
+        value={formData.purchase_price}
         onChange={handleInputChange}
         placeholder="Purchase Price"
         type="number"
@@ -166,54 +166,54 @@ const CreatePropertyForm = () => {
         className="input w-full"
       />
       <input
-        name="managementFees"
-        value={formData.managementFees}
+        name="management_fees"
+        value={formData.management_fees}
         onChange={handleInputChange}
         placeholder="Management Fees"
         type="number"
         className="input w-full"
       />
       <input
-        name="grossIncome"
-        value={formData.grossIncome}
+        name="gross_income"
+        value={formData.gross_income}
         onChange={handleInputChange}
         placeholder="Gross Income"
         type="number"
         className="input w-full"
       />
       <input
-        name="numberOfUnits"
-        value={formData.numberOfUnits}
+        name="number_of_units"
+        value={formData.number_of_units}
         onChange={handleInputChange}
         placeholder="Number of Units"
         type="number"
         className="input w-full"
       />
       <input
-        name="unitMix"
-        value={formData.unitMix}
+        name="unit_mix"
+        value={formData.unit_mix}
         onChange={handleInputChange}
         placeholder="Unit Mix (e.g. 1BR:5, 2BR:3)"
         className="input w-full"
       />
       <input
-        name="grossExpenses"
-        value={formData.grossExpenses}
+        name="gross_expenses"
+        value={formData.gross_expenses}
         onChange={handleInputChange}
         placeholder="Gross Expenses"
         type="number"
         className="input w-full"
       />
       <input
-        name="yearBuilt"
-        value={formData.yearBuilt}
+        name="year_built"
+        value={formData.year_built}
         onChange={handleInputChange}
         placeholder="Year Built"
         className="input w-full"
       />
       <input
-        name="squareFootage"
-        value={formData.squareFootage}
+        name="square_footage"
+        value={formData.square_footage}
         onChange={handleInputChange}
         placeholder="Square Footage"
         className="input w-full"
@@ -255,8 +255,8 @@ export default CreatePropertyForm;
 //   const [formData, setFormData] = useState({
 //     name: "",
 //     address: "",
-//     purchasePrice: "",
-//     numberOfUnits: "",
+//     purchase_price: "",
+//     number_of_units: "",
 //   });
 
 //   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -282,7 +282,7 @@ export default CreatePropertyForm;
 //         ...prev,
 //         address: parsed.address || prev.address,
 //         purchasePrice: parsed.purchase_price || prev.purchasePrice,
-//         numberOfUnits: parsed.number_of_units || prev.numberOfUnits,
+//         number_of_units: parsed.number_of_units || prev.number_of_units,
 //       }));
 //     } catch (err) {
 //       console.error("Failed to parse files", err);
@@ -352,8 +352,8 @@ export default CreatePropertyForm;
 //           className="input"
 //         />
 //         <input
-//           name="numberOfUnits"
-//           value={formData.numberOfUnits}
+//           name="number_of_units"
+//           value={formData.number_of_units}
 //           onChange={handleInputChange}
 //           placeholder="Number of Units"
 //           type="number"
