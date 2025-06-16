@@ -71,19 +71,38 @@ const CreatePropertyForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const submissionData = new FormData();
+    const payload = {
+      details: {
+        name: formData.name,
+        address: formData.address,
+        purchase_price: formData.purchase_price,
+        gross_income: formData.gross_income,
+        insurance: formData.insurance,
+        repairs: formData.repairs,
+        management_fees: formData.management_fees,
+        utilities: formData.utilities,
+        number_of_units: formData.number_of_units,
+        unit_mix: formData.unit_mix,
+        year_built: formData.year_built,
+        square_footage: formData.square_footage,
+        gross_expenses: formData.gross_expenses,
+      },
+    };
 
-    Object.entries(formData).forEach(([key, value]) => {
-      submissionData.append(key, value);
-    });
+    // Object.entries(formData).forEach(([key, value]) => {
+    //   submissionData.append(key, value);
+    // });
 
-    if (omFile) submissionData.append("om", omFile, "om.pdf");
-    if (t12File) submissionData.append("t12", t12File, "t12.pdf");
-    if (rentRollFile) submissionData.append("rent_roll", rentRollFile, "rent_roll.pdf");
+    // if (omFile) submissionData.append("om", omFile, "om.pdf");
+    // if (t12File) submissionData.append("t12", t12File, "t12.pdf");
+    // if (rentRollFile) submissionData.append("rent_roll", rentRollFile, "rent_roll.pdf");
 
     await fetch(`${API_BASE_URL}/v1/properties`, {
       method: "POST",
-      body: submissionData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
     });
 
     alert("Property submitted!");
