@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { API_BASE_URL } from "../config";
+import FloatingInput from "./FloatingInput";
 
 const CreatePropertyForm = () => {
   const [formData, setFormData] = useState({        // Rent Roll
@@ -138,104 +139,95 @@ const CreatePropertyForm = () => {
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-      <input
+
+      <FloatingInput
         name="name"
+        label="Property Name"
         value={formData.name}
         onChange={handleInputChange}
-        placeholder="Property Name"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="address"
+        label="Address"
         value={formData.address}
         onChange={handleInputChange}
-        placeholder="Address"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="purchase_price"
+        label="Purchase Price"
+        type="number"
         value={formData.purchase_price}
         onChange={handleInputChange}
-        placeholder="Purchase Price"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="insurance"
+        label="Insurance"
+        type="number"
         value={formData.insurance}
         onChange={handleInputChange}
-        placeholder="Insurance"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="repairs"
+        label="Repairs"
+        type="number"
         value={formData.repairs}
         onChange={handleInputChange}
-        placeholder="Repairs"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="utilities"
+        label="Utilities"
+        type="number"
         value={formData.utilities}
         onChange={handleInputChange}
-        placeholder="Utilities"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="management_fees"
+        label="Management Fees"
+        type="number"
         value={formData.management_fees}
         onChange={handleInputChange}
-        placeholder="Management Fees"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="gross_income"
+        label="Gross Income"
+        type="number"
         value={formData.gross_income}
         onChange={handleInputChange}
-        placeholder="Gross Income"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="number_of_units"
+        label="Number of Units"
+        type="number"
         value={formData.number_of_units}
         onChange={handleInputChange}
-        placeholder="Number of Units"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="unit_mix"
+        label="Unit Mix"
         value={formData.unit_mix}
         onChange={handleInputChange}
-        placeholder="Unit Mix (e.g. 1BR:5, 2BR:3)"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="gross_expenses"
+        label="Gross Expenses"
+        type="number"
         value={formData.gross_expenses}
         onChange={handleInputChange}
-        placeholder="Gross Expenses"
-        type="number"
-        className="input w-full"
       />
-      <input
+      <FloatingInput
         name="year_built"
+        label="Year Built"
+        type="number"
         value={formData.year_built}
         onChange={handleInputChange}
-        placeholder="Year Built"
-        className="input w-full"
       />
-      <input
+
+      <FloatingInput
         name="square_footage"
+        label="Square Footage"
+        type="number"
         value={formData.square_footage}
         onChange={handleInputChange}
-        placeholder="Square Footage"
-        className="input w-full"
       />
       </div>
 
