@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { API_BASE_URL } from "../config";
 import FloatingInput from "./FloatingInput";
+import { useNavigate } from "react-router-dom";
 
 const CreatePropertyForm = () => {
   const [formData, setFormData] = useState({        // Rent Roll
@@ -29,6 +30,7 @@ const CreatePropertyForm = () => {
       const file = e.target.files?.[0] || null;
       setter(file);
     };
+  const navigate = useNavigate();
 
   const handleParseFiles = async () => {
     const data = new FormData();
@@ -72,6 +74,7 @@ const CreatePropertyForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     const payload = {
       details: {
         name: formData.name,
@@ -89,25 +92,30 @@ const CreatePropertyForm = () => {
         gross_expenses: formData.gross_expenses,
       },
     };
-
-    // Object.entries(formData).forEach(([key, value]) => {
-    //   submissionData.append(key, value);
-    // });
-
-    // if (omFile) submissionData.append("om", omFile, "om.pdf");
-    // if (t12File) submissionData.append("t12", t12File, "t12.pdf");
-    // if (rentRollFile) submissionData.append("rent_roll", rentRollFile, "rent_roll.pdf");
-
-    await fetch(`${API_BASE_URL}/v1/properties`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    alert("Property submitted!");
+  
+    try {
+      const response = await fetch(`${API_BASE_URL}/v1/properties`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to create property");
+      }
+  
+      const createdProperty = await response.json();
+  
+      // ✅ Navigate to the show view for the created property
+      navigate(`/properties/${createdProperty.id}`);
+    } catch (error) {
+      console.error("Create property failed:", error);
+      alert("Failed to create property. Please try again.");
+    }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded shadow">

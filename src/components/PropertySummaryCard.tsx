@@ -1,19 +1,21 @@
-import { Link } from "react-router-dom"; // Import Link for routing
-import { Property } from "../types/Property"; // Make sure the type is correct
+import { Link } from "react-router-dom";
+import { Property } from "../types/Property";
 
 const PropertySummaryCard = ({ property }: { property: Property }) => {
+  const d = property.details;
+
   return (
     <div className="border p-4 rounded shadow mb-4">
-      
-      {/* <p>Purchase Price: ${property.purchasePrice.toLocaleString()}</p>
-      <p>Total Units: {property.totalUnits}</p>
-      <p>Gross Income: ${property.grossIncome.toLocaleString()}</p>
-      <p>Expenses: ${property.grossExpenses.toLocaleString()}</p> */}
-      
-      {/* Link to detailed property page */}
+
       <Link to={`/properties/${property.id}`} className="text-blue-600 underline">
-        <h2 className="text-xl font-bold">{property.address}</h2>
+        <h2 className="text-xl font-bold">{d.name || "Unnamed Property"}</h2>
       </Link>
+
+      <p>Purchase Price: ${d.purchase_price?.toLocaleString() ?? "N/A"}</p>
+      <p>Total Units: {d.number_of_units ?? "N/A"}</p>
+      <p>Gross Income: ${d.gross_income?.toLocaleString() ?? "N/A"}</p>
+      <p>Expenses: ${d.gross_expenses?.toLocaleString() ?? "N/A"}</p>
+      
     </div>
   );
 };
