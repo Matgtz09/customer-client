@@ -14,7 +14,7 @@ const CreatePropertyForm = () => {
     management_fees: "",     // OM
     utilities: "",          // OM
     number_of_units: "",      // Rent Roll
-    unit_mix: "",            // Rent Roll (summary)
+    unit_mix: [{ type: "", count: "" }],            // Rent Roll (summary)
     year_built: "",          // OM
     square_footage: "",      // OM
     gross_expenses: "",      // T-12
@@ -31,6 +31,18 @@ const CreatePropertyForm = () => {
       setter(file);
     };
   const navigate = useNavigate();
+
+  const updateUnitMixField = (index: number, field: string, value: string) => {
+    const updated = [...formData.unit_mix];
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
+    setFormData((prev) => ({
+      ...prev,
+      unit_mix: updated,
+    }));
+  };
 
   const handleParseFiles = async () => {
     const data = new FormData();
@@ -209,12 +221,57 @@ const CreatePropertyForm = () => {
         value={formData.number_of_units}
         onChange={handleInputChange}
       />
-      <FloatingInput
-        name="unit_mix"
-        label="Unit Mix"
-        value={formData.unit_mix}
-        onChange={handleInputChange}
-      />
+      <div className="col-span-full space-y-2">
+  <label className="block font-medium text-gray-700">Unit Mix</label>
+
+  {formData.unit_mix.map((unit, index) => (
+    <div key={index} className="flex flex-col md:flex-row items-center gap-2">
+      <div className="w-full md:w-1/3">
+        <FloatingInput
+          name={`unit_type_${index}`}
+          label="Unit Type"
+          value={unit.type}
+          onChange={(e) => updateUnitMixField(index, "type", e.target.value)}
+        />
+      </div>
+      <div className="w-full md:w-1/4">
+        <FloatingInput
+          name={`unit_count_${index}`}
+          label="Count"
+          type="number"
+          value={unit.count}
+          onChange={(e) => updateUnitMixField(index, "count", e.target.value)}
+        />
+      </div>
+      {formData.unit_mix.length > 1 && (
+        <button
+          type="button"
+          onClick={() => {
+            const updated = [...formData.unit_mix];
+            updated.splice(index, 1);
+            setFormData((prev) => ({ ...prev, unit_mix: updated }));
+          }}
+          className="text-red-600 text-sm hover:underline mt-1 md:mt-5"
+        >
+          Remove
+        </button>
+      )}
+    </div>
+  ))}
+
+  <button
+    type="button"
+    onClick={() =>
+      setFormData((prev) => ({
+        ...prev,
+        unit_mix: [...prev.unit_mix, { type: "", count: "" }],
+      }))
+    }
+    className="text-sm text-blue-600 hover:underline mt-2"
+  >
+    + Add Unit Type
+  </button>
+</div>
       <FloatingInput
         name="gross_expenses"
         label="Gross Expenses"
@@ -250,144 +307,3 @@ const CreatePropertyForm = () => {
 };
 
 export default CreatePropertyForm;
-
-
-
-
-
-
-
-
-
-
-// import { useState } from "react";
-
-// /*************  ✨ Windsurf Command ⭐  *************/
-// /**
-//  * Form to create a new property.
-//  *
-//  * Allows user to upload documents, then uses the API to parse those documents and prefill the form.
-//  * Submits the form to the API to create a new property.
-//  */
-// /*******  b70fa9bc-e7b4-41c3-854d-cbfb57c5d827  *******/
-// const CreatePropertyForm = () => {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     address: "",
-//     purchase_price: "",
-//     number_of_units: "",
-//   });
-
-//   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-
-//   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const files = e.target.files ? Array.from(e.target.files) : [];
-//     setUploadedFiles(files);
-//   };
-
-//   const handleParseFiles = async () => {
-//     const data = new FormData();
-//     uploadedFiles.forEach((file) => data.append("files[]", file));
-
-//     try {
-//       const res = await fetch("/v1/parse", {
-//         method: "POST",
-//         body: data,
-//       });
-//       const parsed = await res.json();
-
-//       // Fill in form with returned fields
-//       setFormData((prev) => ({
-//         ...prev,
-//         address: parsed.address || prev.address,
-//         purchasePrice: parsed.purchase_price || prev.purchasePrice,
-//         number_of_units: parsed.number_of_units || prev.number_of_units,
-//       }));
-//     } catch (err) {
-//       console.error("Failed to parse files", err);
-//     }
-//   };
-
-//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({ ...prev, [name]: value }));
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     const submissionData = new FormData();
-
-//     Object.entries(formData).forEach(([key, value]) => {
-//       submissionData.append(key, value);
-//     });
-
-//     uploadedFiles.forEach((file) => {
-//       submissionData.append("files[]", file);
-//     });
-
-//     await fetch("/v1/properties", {
-//       method: "POST",
-//       body: submissionData,
-//     });
-
-//     alert("Property submitted!");
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded shadow">
-//       <h2 className="text-xl font-bold">Upload Documents</h2>
-
-//       <input type="file" multiple onChange={handleFileChange} />
-
-//       <button
-//         type="button"
-//         onClick={handleParseFiles}
-//         className="bg-blue-600 text-white px-4 py-2 rounded"
-//       >
-//         Parse & Prefill
-//       </button>
-
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-//         <input
-//           name="name"
-//           value={formData.name}
-//           onChange={handleInputChange}
-//           placeholder="Property Name"
-//           className="input"
-//         />
-//         <input
-//           name="address"
-//           value={formData.address}
-//           onChange={handleInputChange}
-//           placeholder="Address"
-//           className="input"
-//         />
-//         <input
-//           name="purchasePrice"
-//           value={formData.purchasePrice}
-//           onChange={handleInputChange}
-//           placeholder="Purchase Price"
-//           type="number"
-//           className="input"
-//         />
-//         <input
-//           name="number_of_units"
-//           value={formData.number_of_units}
-//           onChange={handleInputChange}
-//           placeholder="Number of Units"
-//           type="number"
-//           className="input"
-//         />
-//       </div>
-
-//       <button
-//         type="submit"
-//         className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
-//       >
-//         Submit Property
-//       </button>
-//     </form>
-//   );
-// };
-
-// export default CreatePropertyForm;
