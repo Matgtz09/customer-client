@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { API_BASE_URL } from "../config";
+import { useNavigate } from "react-router-dom";
 
 
 type UnitMix = {
@@ -34,6 +35,7 @@ const PropertyDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
@@ -47,6 +49,25 @@ const PropertyDetails = () => {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [id]);
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this property?")) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/v1/properties/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        navigate("/properties"); // go back to list
+      } else {
+        alert("Failed to delete property.");
+      }
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("An error occurred while deleting.");
+    }
+  };
 
   if (loading) return <p>Loading property details...</p>;
 
@@ -90,6 +111,13 @@ const PropertyDetails = () => {
           )}
         </div>
       </div>
+      
+      <button
+        onClick={handleDelete}
+        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-6"
+      >
+        Delete Property
+      </button>
     </div>
   );
 };
