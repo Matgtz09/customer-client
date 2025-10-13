@@ -46,9 +46,9 @@ const CreatePropertyForm = () => {
 
   const handleParseFiles = async () => {
     const data = new FormData();
-    if (omFile) data.append("om", omFile, "om.pdf");
-    if (t12File) data.append("t12", t12File, "t12.pdf");
-    if (rentRollFile) data.append("rent_roll", rentRollFile, "rent_roll.pdf");
+    if (omFile) data.append("om", omFile, omFile.name);
+    if (t12File) data.append("t12", t12File, t12File.name);
+    if (rentRollFile) data.append("rent_roll", rentRollFile, rentRollFile.name);  
 
     try {
       const res =await fetch(`${API_BASE_URL}/v1/properties/upload`, {
@@ -136,17 +136,17 @@ const CreatePropertyForm = () => {
       <div className="space-y-2">
         <label className="block">
           Offering Memorandum (OM):
-          <input type="file" accept=".pdf" onChange={handleFileChange(setOmFile)} />
+          <input type="file" accept=".csv, .pdf, .xls, .xlsx" onChange={handleFileChange(setOmFile)} />
         </label>
 
         <label className="block">
           T-12:
-          <input type="file" accept=".pdf" onChange={handleFileChange(setT12File)} />
+          <input type="file" accept=".csv, .pdf, .xls, .xlsx" onChange={handleFileChange(setT12File)} />
         </label>
 
         <label className="block">
           Rent Roll:
-          <input type="file" accept=".pdf" onChange={handleFileChange(setRentRollFile)} />
+          <input type="file" accept=".csv, .pdf, .xls, .xlsx" onChange={handleFileChange(setRentRollFile)} />
         </label>
       </div>
 
